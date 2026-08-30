@@ -41,7 +41,7 @@ That's it.
 
 6. Scroll down and click **Commit changes**
 7. Wait 1–2 minutes for GitHub Actions to build and deploy
-8. Visit [clanker1011.github.io/atomicbytes-marketing](https://clanker1011.github.io/atomicbytes-marketing)
+8. Visit [clanker1011.github.io/atomicbytes-marketing](https://clanker1011.github.io/atomicbytes-marketing) (blog is the homepage)
 
 ## Frontmatter fields
 
@@ -134,7 +134,7 @@ export const feelGood = true;
 
 ## RSS feed
 
-The site generates an RSS feed at `/feed.xml` automatically. New posts appear in the feed as soon as they're published.
+The site generates an RSS feed at `/feed.xml` automatically. New posts appear in the feed as soon as they're published. The RSS link is in the site footer.
 
 ## Troubleshooting
 

@@ -1,79 +1,17 @@
 ---
 layout: base.njk
-title: Make software feel good
-description: AtomicBytes builds web and mobile products that feel good to use—and hold up over time. Small-team energy, serious craft.
+title: Blog
+description: Notes from building. Topics will probably wander. That's the point.
 ---
 
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-content">
-      <p class="hero-kicker">Independent studio</p>
-      <h1>Make software feel good.</h1>
-      <p class="lede">AtomicBytes builds web and mobile products that feel good to use—and hold up over time. Small-team energy, serious craft.</p>
-      <div class="btn-group">
-        <a href="mailto:hello@atomicbytes.com" class="btn btn-primary">Say hi →</a>
-        <a href="{{ '/work/' | url }}" class="btn btn-secondary">See the work</a>
-      </div>
-    </div>
-    <div>
-      <img src="{{ '/assets/characters/atom-salesman.png' | url }}" alt="Atom Salesman, AtomicBytes mascot" class="hero-character" width="180">
-    </div>
-  </div>
-</section>
-
-<section class="section-md">
+<section class="section-lg">
   <div class="content">
-    <div class="card-grid">
-      <div class="card">
-        <span class="card-label">builds & rebuilds</span>
-        <h3 class="card-title">Web & mobile apps</h3>
-        <p>New builds, rebuilds, hardening passes, and the unglamorous work that makes apps last.</p>
-      </div>
-      
-      <div class="card">
-        <span class="card-label">the last 10%</span>
-        <h3 class="card-title">UI craft</h3>
-        <p>Design-sensitive implementation, interaction polish, and that last 10% that people actually notice.</p>
-      </div>
-      
-      <div class="card">
-        <span class="card-label">stays fun</span>
-        <h3 class="card-title">Performance & reliability</h3>
-        <p>Speed, stability, observability, and maintainability—so the product stays fun to own.</p>
-      </div>
-      
-      <div class="card">
-        <span class="card-label">no surprise fridays</span>
-        <h3 class="card-title">Shipping systems</h3>
-        <p>Testing strategy, release process, and sensible automation to reduce "surprise Fridays."</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section-md">
-  <div class="content-narrow">
-    <h2>Flexible by design</h2>
-    <p>AtomicBytes is small on purpose. When a project needs extra range, we pull in trusted collaborators. No agency theater.</p>
-  </div>
-</section>
-
-<section class="section-md">
-  <div class="content-narrow">
-    <h2>About</h2>
-    <p>AtomicBytes is an independent studio. We're not trying to be everything—just extremely good at building the right thing, keeping it simple, and shipping it with care.</p>
-  </div>
-</section>
-
-<section class="section-md">
-  <div class="content">
-    <h2>Blog</h2>
+    <h1>Blog</h1>
     <p class="lede">Notes from building. Topics will probably wander. That's the point.</p>
     
-    {% set recentPosts = collections.posts | limit(3) %}
-    {% if recentPosts.length > 0 %}
-    <ul class="post-list">
-      {% for post in recentPosts %}
+    {% if collections.posts.length > 0 %}
+    <ul class="post-list" style="margin-top: var(--space-48);">
+      {% for post in collections.posts %}
       <li>
         <article class="post-card">
           <header class="post-header">
@@ -82,26 +20,26 @@ description: AtomicBytes builds web and mobile products that feel good to use—
             <img src="{{ '/assets/labels/human-sticker.svg' | url }}" alt="Human Made" class="human-badge" width="48" height="48">
             {% endif %}
           </header>
-          <h3 class="post-title"><a href="{{ post.url | url }}">{{ post.data.title }}</a></h3>
+          <h2 class="post-title"><a href="{{ post.url | url }}">{{ post.data.title }}</a></h2>
           <p class="post-excerpt">{{ post.data.description or (post.templateContent | excerpt) }}</p>
         </article>
       </li>
       {% endfor %}
     </ul>
-    <p style="margin-top: var(--space-32);"><a href="{{ '/blog/' | url }}">All posts →</a></p>
     {% else %}
-    <div class="empty-tray">
+    <div class="empty-tray" style="margin-top: var(--space-48);">
       <span class="empty-tray-label">ISSUE 00</span>
-      <h3>First note coming soon</h3>
+      <h2>First note coming soon</h2>
       <p>A magazine-shaped hole on purpose. Nothing invented to fill it.</p>
     </div>
     {% endif %}
   </div>
 </section>
 
-<section class="section-lg">
-  <div class="content-narrow" style="text-align: center;">
-    <h2>Say hi</h2>
-    <p class="lede">Email is best: <a href="mailto:hello@atomicbytes.com">hello@atomicbytes.com</a></p>
+<footer class="section-md" style="background: var(--surface-muted); margin-top: var(--space-64);">
+  <div class="content-narrow">
+    <h2>AtomicBytes</h2>
+    <p class="lede">Web + mobile studio. Independent, not everything.</p>
+    <p style="margin-top: var(--space-24);"><a href="{{ '/studio/' | url }}">Learn about the studio →</a></p>
   </div>
-</section>
+</footer>
