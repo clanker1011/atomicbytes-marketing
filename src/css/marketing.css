@@ -25,11 +25,40 @@ html {
 
 body {
   min-height: 100vh;
+  background-attachment: fixed;
+}
+
+/* ---------- Paper patterns ---------- */
+/* Workshop grid (default) */
+.paper-grid {
   background-image:
     repeating-linear-gradient(0deg, var(--grid-x) 0 1px, transparent 1px 100%),
     repeating-linear-gradient(90deg, var(--grid-y) 0 1px, transparent 1px 100%);
   background-size: 24px 24px;
-  background-attachment: fixed;
+}
+
+/* Dot paper */
+.paper-dots {
+  background-image: radial-gradient(
+    circle at center,
+    var(--grid-x) 1px,
+    transparent 1px
+  );
+  background-size: 16px 16px;
+}
+
+/* Sparse sparks */
+.paper-sparks {
+  background-image:
+    radial-gradient(circle at 20% 30%, var(--grid-x) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 80% 70%, var(--grid-x) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, var(--grid-x) 2px, transparent 2px),
+    radial-gradient(circle at 10% 80%, var(--grid-x) 1px, transparent 1px),
+    radial-gradient(circle at 90% 20%, var(--grid-x) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 40% 90%, var(--grid-x) 1px, transparent 1px),
+    radial-gradient(circle at 70% 10%, var(--grid-x) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 30% 60%, var(--grid-x) 1px, transparent 1px);
+  background-size: 200px 200px;
 }
 
 img, svg, video {
@@ -527,6 +556,20 @@ a:focus-visible {
 }
 
 /* ---------- Blog post content ---------- */
+.post-cover {
+  max-width: var(--content-wide);
+  margin: 0 auto var(--space-48);
+  padding: 0 var(--space-24);
+}
+
+.post-cover img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+  border: var(--stroke-thick) solid var(--ink);
+  box-shadow: var(--shadow-stamp);
+}
+
 .post-content {
   max-width: var(--content-narrow);
   margin: 0 auto;
@@ -557,6 +600,23 @@ a:focus-visible {
   margin: var(--space-32) 0;
   font-size: var(--fs-lg);
   font-style: italic;
+}
+
+.post-content .callout-quote {
+  background: var(--mint);
+  color: var(--on-accent);
+  border: var(--stroke-thick) solid var(--ink);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32);
+  margin: var(--space-48) 0;
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 60, "WONK" 1;
+  font-size: var(--fs-2xl);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+  font-style: normal;
+  box-shadow: var(--shadow-stamp);
+  transform: rotate(-0.5deg);
 }
 
 .post-content code {

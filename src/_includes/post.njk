@@ -3,6 +3,12 @@ layout: base.njk
 ---
 
 <article class="section-lg">
+  {% if coverImage %}
+  <div class="post-cover">
+    <img src="{{ coverImage | url }}" alt="{{ title }}" loading="eager">
+  </div>
+  {% endif %}
+  
   <header class="content-narrow">
     <p class="hero-kicker">
       <time datetime="{{ date | isoDate }}">{{ date | dateDisplay }}</time>
@@ -21,6 +27,11 @@ layout: base.njk
   </div>
   
   <footer class="content-narrow" style="margin-top: var(--space-64); padding-top: var(--space-32); border-top: var(--stroke-thin) solid var(--line);">
+    {% if humanMade %}
+    <div style="margin-bottom: var(--space-24); text-align: center;">
+      <img src="{{ '/assets/labels/human-sticker.svg' | url }}" alt="Human Made" width="64" height="64" style="display: inline-block;">
+    </div>
+    {% endif %}
     <p><a href="{{ '/blog/' | url }}">← All posts</a></p>
   </footer>
 </article>
