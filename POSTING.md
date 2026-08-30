@@ -60,8 +60,49 @@ tags:                      # Optional — list of tags
   - craft
 draft: false              # Set to true to hide from production
 humanMade: false          # Set to true only if YOU wrote it
+paperPattern: grid        # Optional — override site paper pattern (grid, dots, sparks)
+coverImage: /blog/img/cover.jpg  # Optional — hero image path
 ---
 ```
+
+### About paper patterns
+
+The site supports three paper patterns as background textures:
+
+- **`grid`** — Workshop grid (default for the site)
+- **`dots`** — Dot paper
+- **`sparks`** — Sparse sparks
+
+The site-wide default is configured in `src/_data/site.json`. Individual posts can override the pattern by setting `paperPattern` in frontmatter.
+
+To change the site default, edit `src/_data/site.json`:
+
+```json
+{
+  "paperPattern": "dots"
+}
+```
+
+To override on a specific post, add `paperPattern` to frontmatter:
+
+```yaml
+---
+title: My Post
+paperPattern: sparks
+---
+```
+
+### About cover images
+
+Posts can optionally display a cover/hero image at the top by setting `coverImage` in frontmatter:
+
+```yaml
+---
+coverImage: /blog/img/my-cover.jpg
+---
+```
+
+Place images in `src/blog/img/` and reference them with paths starting with `/blog/img/`. The build handles the path prefix automatically.
 
 ### About `humanMade`
 

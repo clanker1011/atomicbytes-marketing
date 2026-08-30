@@ -10,6 +10,7 @@ Built with [Eleventy 3](https://www.11ty.dev/) and the [AtomicBytes design syste
 
 - **Blog-first site**: Blog index at `/` (homepage), Studio page at `/studio/`
 - **Blog workflow**: Markdown posts in `src/blog/` with RSS feed
+- **Paper patterns**: Configurable background textures (grid, dots, sparks) with site-wide defaults and per-post overrides
 - **Design tokens**: Vendored snapshot of `tokens.css` from the design system
 - **Characters**: AtomicByte mark, Atom Salesman, Byte-Bot, and other mascots
 - **Theme toggle**: Light (cream paper) and Dark (night paper) modes
