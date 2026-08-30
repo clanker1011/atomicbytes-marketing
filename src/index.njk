@@ -16,7 +16,7 @@ description: AtomicBytes builds web and mobile products that feel good to use—
       </div>
     </div>
     <div>
-      <img src="{{ '/assets/characters/atom-salesman.png' | url }}" alt="" class="hero-character" width="180">
+      <img src="{{ '/assets/characters/atom-salesman.png' | url }}" alt="Atom Salesman, AtomicBytes mascot" class="hero-character" width="180">
     </div>
   </div>
 </section>
@@ -70,7 +70,7 @@ description: AtomicBytes builds web and mobile products that feel good to use—
     <h2>Blog</h2>
     <p class="lede">Notes from building. Topics will probably wander. That's the point.</p>
     
-    {% set recentPosts = collections.posts | reverse | limit(3) %}
+    {% set recentPosts = collections.posts | limit(3) %}
     {% if recentPosts.length > 0 %}
     <ul class="post-list">
       {% for post in recentPosts %}
