@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }} | AtomicBytes</title>
+  <meta name="description" content="{{ description or 'AtomicBytes builds web and mobile products that feel good to use—and hold up over time. Small-team energy, serious craft.' }}">
+  <link rel="stylesheet" href="{{ '/css/tokens.css' | url }}">
+  <link rel="stylesheet" href="{{ '/css/marketing.css' | url }}">
+  <link rel="icon" type="image/svg+xml" href="{{ '/assets/characters/atomicbyte-mark.svg' | url }}">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&family=Fraunces:opsz,wght,SOFT,WONK@9..144,500..700,60,1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
+  
+  {% if page.url == "/" %}
+  <link rel="alternate" type="application/rss+xml" title="AtomicBytes Blog" href="{{ '/feed.xml' | url }}">
+  {% endif %}
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="{{ '/' | url }}" class="header-brand">
+        <img src="{{ '/assets/characters/atomicbyte-mark.svg' | url }}" alt="" class="header-mark" width="32" height="32">
+        <span class="header-wordmark">AtomicBytes</span>
+      </a>
+      
+      <nav class="header-nav" aria-label="Main navigation">
+        <ul class="nav-links">
+          <li><a href="{{ '/work/' | url }}">Work</a></li>
+          <li><a href="{{ '/blog/' | url }}">Blog</a></li>
+          <li><a href="{{ '/studio/' | url }}">Studio</a></li>
+        </ul>
+        
+        <div class="theme-toggle" role="group" aria-label="Theme switcher">
+          <button type="button" class="theme-btn" data-theme="light" aria-pressed="false">Light</button>
+          <button type="button" class="theme-btn" data-theme="dark" aria-pressed="false">Dark</button>
+        </div>
+        
+        <a href="mailto:hello@atomicbytes.com" class="btn btn-primary">Say hi</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    {{ content | safe }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">AtomicBytes</div>
+        <p class="footer-tagline">web + mobile studio</p>
+      </div>
+      
+      <div>
+        <h3 class="footer-heading">Studio</h3>
+        <ul class="footer-links">
+          <li><a href="{{ '/work/' | url }}">Work</a></li>
+          <li><a href="{{ '/blog/' | url }}">Blog</a></li>
+          <li><a href="{{ '/studio/' | url }}">About</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h3 class="footer-heading">Connect</h3>
+        <ul class="footer-links">
+          <li><a href="mailto:hello@atomicbytes.com">hello@atomicbytes.com</a></li>
+          <li><a href="{{ '/feed.xml' | url }}">RSS</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Theme toggle
+    (function() {
+      const root = document.documentElement;
+      const buttons = document.querySelectorAll('.theme-btn');
+      const storedTheme = localStorage.getItem('ab-theme');
+      
+      function setTheme(theme) {
+        root.setAttribute('data-theme', theme);
+        localStorage.setItem('ab-theme', theme);
+        buttons.forEach(btn => {
+          btn.setAttribute('aria-pressed', btn.dataset.theme === theme ? 'true' : 'false');
+        });
+      }
+      
+      // Initialize
+      if (storedTheme) {
+        setTheme(storedTheme);
+      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        setTheme('dark');
+      } else {
+        setTheme('light');
+      }
+      
+      // Listeners
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => setTheme(btn.dataset.theme));
+      });
+      
+      // Watch for system preference changes
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('ab-theme')) {
+          setTheme(e.matches ? 'dark' : 'light');
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

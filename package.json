@@ -1,0 +1,25 @@
+{
+  "name": "atomicbytes-marketing",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Public studio site for atomicbytes.com",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "clean": "rm -rf _site"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clanker1011/atomicbytes-marketing.git"
+  },
+  "keywords": ["atomicbytes", "design-system", "eleventy"],
+  "author": "Matt Sell",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/clanker1011/atomicbytes-marketing/issues"
+  },
+  "homepage": "https://github.com/clanker1011/atomicbytes-marketing#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0"
+  }
+}

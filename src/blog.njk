@@ -1,0 +1,53 @@
+---
+layout: base.njk
+title: Blog
+description: Notes from building. Topics will probably wander. That's the point.
+pagination:
+  data: collections.posts
+  size: 20
+  reverse: true
+permalink: "{% if pagination.pageNumber > 0 %}blog/page-{{ pagination.pageNumber + 1 }}/{% else %}blog/{% endif %}index.html"
+---
+
+<section class="section-lg">
+  <div class="content">
+    <h1>Blog</h1>
+    <p class="lede">Notes from building. Topics will probably wander. That's the point.</p>
+    
+    {% if collections.posts.length > 0 %}
+    <ul class="post-list" style="margin-top: var(--space-48);">
+      {% for post in pagination.items %}
+      <li>
+        <article class="post-card">
+          <header class="post-header">
+            <time datetime="{{ post.date | isoDate }}" class="post-meta">{{ post.date | dateDisplay }}</time>
+            {% if post.data.humanMade %}
+            <img src="{{ '/assets/labels/human-sticker.svg' | url }}" alt="Human Made" class="human-badge" width="48" height="48">
+            {% endif %}
+          </header>
+          <h2 class="post-title"><a href="{{ post.url | url }}">{{ post.data.title }}</a></h2>
+          <p class="post-excerpt">{{ post.data.description or (post.templateContent | excerpt) }}</p>
+        </article>
+      </li>
+      {% endfor %}
+    </ul>
+    
+    {% if pagination.href.previous or pagination.href.next %}
+    <nav aria-label="Blog pagination" style="margin-top: var(--space-48); display: flex; gap: var(--space-16); justify-content: center;">
+      {% if pagination.href.previous %}
+      <a href="{{ pagination.href.previous | url }}" class="btn btn-secondary">← Newer</a>
+      {% endif %}
+      {% if pagination.href.next %}
+      <a href="{{ pagination.href.next | url }}" class="btn btn-secondary">Older →</a>
+      {% endif %}
+    </nav>
+    {% endif %}
+    {% else %}
+    <div class="empty-tray" style="margin-top: var(--space-48);">
+      <span class="empty-tray-label">ISSUE 00</span>
+      <h2>First note coming soon</h2>
+      <p>A magazine-shaped hole on purpose. Nothing invented to fill it.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>

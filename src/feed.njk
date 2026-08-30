@@ -1,0 +1,31 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>AtomicBytes Blog</title>
+  <subtitle>Notes from building. Topics will probably wander. That's the point.</subtitle>
+  <link href="{{ metadata.url }}{{ '/feed.xml' | url }}" rel="self"/>
+  <link href="{{ metadata.url }}{{ '/' | url }}"/>
+  {%- set latestPost = collections.posts | reverse | first %}
+  {%- if latestPost %}
+  <updated>{{ latestPost.date | isoDate }}</updated>
+  {%- else %}
+  <updated>{{ page.date | isoDate }}</updated>
+  {%- endif %}
+  <id>{{ metadata.url }}{{ '/' | url }}</id>
+  <author>
+    <name>AtomicBytes</name>
+    <email>hello@atomicbytes.com</email>
+  </author>
+  {%- for post in collections.posts | reverse | limit(20) %}
+  <entry>
+    <title>{{ post.data.title }}</title>
+    <link href="{{ metadata.url }}{{ post.url | url }}"/>
+    <updated>{{ post.date | isoDate }}</updated>
+    <id>{{ metadata.url }}{{ post.url | url }}</id>
+    <content type="html">{{ post.templateContent | htmlToAbsoluteUrls(metadata.url) }}</content>
+  </entry>
+  {%- endfor %}
+</feed>
