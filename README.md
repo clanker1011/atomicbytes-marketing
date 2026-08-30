@@ -8,7 +8,7 @@ Built with [Eleventy 3](https://www.11ty.dev/) and the [AtomicBytes design syste
 
 ## What's here
 
-- **Marketing site**: Home, Work, Blog, Studio pages using the AtomicBytes design system
+- **Blog-first site**: Blog index at `/` (homepage), Studio page at `/studio/`
 - **Blog workflow**: Markdown posts in `src/blog/` with RSS feed
 - **Design tokens**: Vendored snapshot of `tokens.css` from the design system
 - **Characters**: AtomicByte mark, Atom Salesman, Byte-Bot, and other mascots
@@ -91,10 +91,8 @@ This prefix is required for GitHub Pages project sites. If the site moves to a c
 │   │   ├── characters/       # AtomicByte, Salesman, Bot, Rocket
 │   │   ├── labels/           # Human Made stamps and stickers
 │   │   └── shapes/           # Mid-century shape ornaments
-│   ├── index.njk             # Home page
-│   ├── work.njk              # Work / portfolio page
-│   ├── blog.njk              # Blog index (paginated)
-│   ├── studio.njk            # About / studio page
+│   ├── index.njk             # Blog index (homepage, paginated)
+│   ├── studio.njk            # Studio page (about, services, work)
 │   └── feed.njk              # RSS feed
 ├── eleventy.config.js        # Eleventy configuration
 ├── package.json
