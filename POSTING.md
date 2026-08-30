@@ -2,6 +2,8 @@
 
 Publishing a post is simple: add a markdown file, commit it, and push to `main`. GitHub Actions builds and deploys the site in a minute or two.
 
+The blog is the homepage (`/`). New posts appear at the top of the index automatically.
+
 You can do this entirely on github.com (no local install required) or run the site locally to preview.
 
 ## Quick start (GitHub web editor)
@@ -41,7 +43,7 @@ That's it.
 
 6. Scroll down and click **Commit changes**
 7. Wait 1–2 minutes for GitHub Actions to build and deploy
-8. Visit [clanker1011.github.io/atomicbytes-marketing](https://clanker1011.github.io/atomicbytes-marketing)
+8. Visit [clanker1011.github.io/atomicbytes-marketing](https://clanker1011.github.io/atomicbytes-marketing) (the blog is the homepage)
 
 ## Frontmatter fields
 
