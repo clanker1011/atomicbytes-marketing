@@ -277,12 +277,9 @@ a:focus-visible {
   display: block;
 }
 
-.theme-btn[data-theme="light"][aria-pressed="true"] {
+.theme-btn[aria-pressed="true"],
+.theme-toggle button[aria-pressed="true"] {
   background: var(--yolk);
-}
-
-.theme-btn[data-theme="dark"][aria-pressed="true"] {
-  background: var(--ink);
 }
 
 .theme-btn:focus-visible {
