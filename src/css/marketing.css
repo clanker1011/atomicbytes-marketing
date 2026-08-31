@@ -260,19 +260,26 @@ a:focus-visible {
 .theme-btn {
   background: transparent;
   border: none;
-  padding: var(--space-8) var(--space-12);
-  font-family: var(--font-body);
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  color: var(--ink);
+  padding: var(--space-8);
   cursor: pointer;
   border-radius: var(--radius-pill);
   transition: background 120ms linear;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--tap);
+  min-height: var(--tap);
 }
 
-.theme-btn[aria-pressed="true"] {
-  background: var(--ink);
-  color: var(--paper);
+.theme-icon {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.theme-btn[aria-pressed="true"],
+.theme-toggle button[aria-pressed="true"] {
+  background: var(--yolk);
 }
 
 .theme-btn:focus-visible {
