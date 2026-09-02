@@ -188,7 +188,13 @@
   color-scheme: dark;
 }
 
-/* OS preference only when the user has not pinned Light. Explicit Dark is above. */
+/*
+ * Dark theme disabled — site always shows light (cream paper) theme.
+ * The [data-theme="dark"] ruleset above is preserved but never activated.
+ * The prefers-color-scheme media query is commented out to prevent automatic dark mode.
+ */
+
+/*
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --paper: #241F18;
@@ -217,3 +223,4 @@
     color-scheme: dark;
   }
 }
+*/

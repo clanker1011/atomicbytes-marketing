@@ -32,16 +32,6 @@
         <ul class="nav-links">
           <li><a href="{{ '/studio/' | url }}">Studio</a></li>
         </ul>
-        
-        <div class="theme-toggle" role="group" aria-label="Color theme">
-          <button type="button" class="theme-btn" data-theme="light" aria-pressed="false" aria-label="Light theme">
-            <img class="theme-icon" src="{{ '/assets/shapes/starburst-8.svg' | url }}" alt="" width="22" height="22" decoding="async">
-          </button>
-          <button type="button" class="theme-btn" data-theme="dark" aria-pressed="false" aria-label="Dark theme">
-            <img class="theme-icon" src="{{ '/assets/shapes/crescent.svg' | url }}" alt="" width="22" height="22" decoding="async">
-          </button>
-        </div>
-        
       </nav>
     </div>
   </header>
@@ -67,43 +57,5 @@
       </div>
     </div>
   </footer>
-
-  <script>
-    // Theme toggle
-    (function() {
-      const root = document.documentElement;
-      const buttons = document.querySelectorAll('.theme-btn');
-      const storedTheme = localStorage.getItem('ab-theme');
-      
-      function setTheme(theme) {
-        root.setAttribute('data-theme', theme);
-        localStorage.setItem('ab-theme', theme);
-        buttons.forEach(btn => {
-          btn.setAttribute('aria-pressed', btn.dataset.theme === theme ? 'true' : 'false');
-        });
-      }
-      
-      // Initialize
-      if (storedTheme) {
-        setTheme(storedTheme);
-      } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        setTheme('dark');
-      } else {
-        setTheme('light');
-      }
-      
-      // Listeners
-      buttons.forEach(btn => {
-        btn.addEventListener('click', () => setTheme(btn.dataset.theme));
-      });
-      
-      // Watch for system preference changes
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (!localStorage.getItem('ab-theme')) {
-          setTheme(e.matches ? 'dark' : 'light');
-        }
-      });
-    })();
-  </script>
 </body>
 </html>

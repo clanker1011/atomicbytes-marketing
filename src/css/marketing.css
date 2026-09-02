@@ -246,47 +246,6 @@ a:focus-visible {
   text-decoration-thickness: 2px;
 }
 
-/* ---------- Theme toggle ---------- */
-.theme-toggle {
-  background: var(--surface);
-  border: var(--stroke) solid var(--ink);
-  border-radius: var(--radius-pill);
-  padding: var(--space-4);
-  display: flex;
-  gap: var(--space-4);
-  min-height: var(--tap);
-}
-
-.theme-btn {
-  background: transparent;
-  border: none;
-  padding: var(--space-8);
-  cursor: pointer;
-  border-radius: var(--radius-pill);
-  transition: background 120ms linear;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: var(--tap);
-  min-height: var(--tap);
-}
-
-.theme-icon {
-  width: 22px;
-  height: 22px;
-  display: block;
-}
-
-.theme-btn[aria-pressed="true"],
-.theme-toggle button[aria-pressed="true"] {
-  background: var(--yolk);
-}
-
-.theme-btn:focus-visible {
-  outline: 3px solid var(--cobalt);
-  outline-offset: 2px;
-}
-
 /* ---------- Buttons ---------- */
 .btn {
   display: inline-block;
