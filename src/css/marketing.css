@@ -199,17 +199,11 @@ a:focus-visible {
 .header-brand {
   display: flex;
   align-items: center;
-  gap: var(--space-12);
   text-decoration: none;
 }
 
 .header-brand:hover {
   text-decoration: none;
-}
-
-.header-mark {
-  width: 32px;
-  height: 32px;
 }
 
 .header-wordmark {
@@ -421,9 +415,21 @@ a:focus-visible {
   }
 }
 
-@media (min-width: 768px) {
-  .footer-inner {
-    grid-template-columns: 2fr 1fr 1fr;
+.footer-brand-block {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+}
+
+.footer-character {
+  width: 88px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .footer-character {
+    width: 120px;
   }
 }
 
@@ -448,21 +454,41 @@ a:focus-visible {
   margin-bottom: var(--space-12);
 }
 
-.footer-links {
+.footer-icon-links {
   list-style: none;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: var(--space-8);
 }
 
-.footer-links a {
-  font-size: var(--fs-sm);
+.footer-icon-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: var(--space-12);
+  background: var(--surface);
+  border: var(--stroke) solid var(--ink);
+  border-radius: var(--radius-md);
   text-decoration: none;
+  transition: background 120ms linear, border-color 120ms linear;
 }
 
-.footer-links a:hover {
-  text-decoration: underline;
-  text-decoration-color: var(--cobalt);
+.footer-icon-links a:hover {
+  background: var(--yolk);
+  border-color: var(--ink);
+}
+
+.footer-icon-links a:focus-visible {
+  outline: 3px solid var(--cobalt);
+  outline-offset: 3px;
+}
+
+.footer-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
 }
 
 /* ---------- Blog styles ---------- */
