@@ -189,17 +189,19 @@ a:focus-visible {
   position: sticky;
   top: 0;
   z-index: 50;
+  overflow: visible;
 }
 
 .header-inner {
   max-width: var(--content-wide);
   margin: 0 auto;
-  padding: var(--space-16) var(--space-24);
+  padding: var(--space-8) var(--space-24);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-24);
   flex-wrap: wrap;
+  overflow: visible;
 }
 
 .header-brand {
@@ -214,26 +216,29 @@ a:focus-visible {
 
 .header-wordmark {
   font-family: var(--font-brand);
-  font-size: var(--fs-md);
+  font-size: 2rem;
   letter-spacing: var(--tracking-brand);
   color: var(--ink);
 }
 
 .header-rocket {
-  height: 44px;
+  height: 15px;
   width: auto;
   flex-shrink: 0;
+  margin-top: -8px;
 }
 
 @media (min-width: 640px) {
   .header-rocket {
-    height: 56px;
+    height: 19px;
+    margin-top: -10px;
   }
 }
 
 @media (min-width: 1024px) {
   .header-rocket {
-    height: 64px;
+    height: 21px;
+    margin-top: -12px;
   }
 }
 
