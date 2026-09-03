@@ -24,7 +24,6 @@
   <header class="site-header">
     <div class="header-inner">
       <a href="{{ '/' | url }}" class="header-brand">
-        <img src="{{ '/assets/characters/atomicbyte-mark.svg' | url }}" alt="" class="header-mark" width="32" height="32">
         <span class="header-wordmark">AtomicBytes</span>
       </a>
       
@@ -42,17 +41,22 @@
 
   <footer class="site-footer">
     <div class="footer-inner">
-      <div>
-        <div class="footer-brand">AtomicBytes</div>
-        <p class="footer-tagline">web + mobile studio</p>
+      <div class="footer-brand-block">
+        <img src="{{ '/assets/characters/atomicbyte.png' | url }}" alt="AtomicByte character" class="footer-character">
+        <div>
+          <div class="footer-brand">AtomicBytes</div>
+          <p class="footer-tagline">web + mobile studio</p>
+        </div>
       </div>
       
       <div>
-        <h3 class="footer-heading">Links</h3>
-        <ul class="footer-links">
-          <li><a href="{{ '/studio/' | url }}">Studio</a></li>
-          <li><a href="mailto:hello@atomicbytes.com">hello@atomicbytes.com</a></li>
-          <li><a href="{{ '/feed.xml' | url }}">RSS</a></li>
+        <h3 class="footer-heading">Connect</h3>
+        <ul class="footer-icon-links">
+          <li><a href="mailto:hello@atomicbytes.com" aria-label="Email AtomicBytes"><img src="{{ '/assets/icons/mail.svg' | url }}" alt="" class="footer-icon"></a></li>
+          <li><a href="https://x.com/atomic_bytes" target="_blank" rel="noopener noreferrer" aria-label="AtomicBytes on X"><img src="{{ '/assets/icons/x.svg' | url }}" alt="" class="footer-icon"></a></li>
+          <li><a href="https://bsky.app/profile/atomicbytes.com" target="_blank" rel="noopener noreferrer" aria-label="AtomicBytes on Bluesky"><img src="{{ '/assets/icons/bluesky.svg' | url }}" alt="" class="footer-icon"></a></li>
+          <li><a href="https://www.linkedin.com/in/mwsell/" target="_blank" rel="noopener noreferrer" aria-label="Matt Sell on LinkedIn"><img src="{{ '/assets/icons/linkedin.svg' | url }}" alt="" class="footer-icon"></a></li>
+          <li><a href="{{ '/feed.xml' | url }}" aria-label="RSS feed"><img src="{{ '/assets/icons/rss.svg' | url }}" alt="" class="footer-icon"></a></li>
         </ul>
       </div>
       
