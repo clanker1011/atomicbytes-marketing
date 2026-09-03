@@ -225,7 +225,7 @@ a:focus-visible {
 .header-rocket {
   position: absolute;
   right: var(--space-24);
-  bottom: -4px;
+  top: calc(100% - 6px);
   height: 64px;
   width: auto;
   pointer-events: none;
