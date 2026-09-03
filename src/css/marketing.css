@@ -219,6 +219,24 @@ a:focus-visible {
   color: var(--ink);
 }
 
+.header-rocket {
+  height: 44px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .header-rocket {
+    height: 56px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header-rocket {
+    height: 64px;
+  }
+}
+
 .header-nav {
   display: flex;
   align-items: center;
