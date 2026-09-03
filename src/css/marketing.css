@@ -26,6 +26,12 @@ html {
 body {
   min-height: 100vh;
   background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+}
+
+#main {
+  flex: 1 0 auto;
 }
 
 /* ---------- Paper patterns ---------- */
@@ -404,6 +410,7 @@ a:focus-visible {
   border-top: var(--stroke) solid var(--ink);
   padding: var(--section-y-sm) 0;
   margin-top: var(--section-y-lg);
+  flex-shrink: 0;
 }
 
 .footer-inner {
