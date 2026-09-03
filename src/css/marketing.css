@@ -201,6 +201,7 @@ a:focus-visible {
   justify-content: space-between;
   gap: var(--space-24);
   flex-wrap: wrap;
+  position: relative;
   overflow: visible;
 }
 
@@ -222,23 +223,17 @@ a:focus-visible {
 }
 
 .header-rocket {
-  height: 15px;
+  position: absolute;
+  right: var(--space-24);
+  bottom: -4px;
+  height: 64px;
   width: auto;
-  flex-shrink: 0;
-  margin-top: -8px;
-}
-
-@media (min-width: 640px) {
-  .header-rocket {
-    height: 19px;
-    margin-top: -10px;
-  }
+  pointer-events: none;
 }
 
 @media (min-width: 1024px) {
   .header-rocket {
-    height: 21px;
-    margin-top: -12px;
+    height: 80px;
   }
 }
 
