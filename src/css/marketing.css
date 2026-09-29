@@ -650,6 +650,45 @@ a:focus-visible {
   transform: rotate(-0.5deg);
 }
 
+.post-content .callout-quote .callout-label {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  opacity: 0.8;
+  margin-bottom: var(--space-12);
+}
+
+.post-content .callout-quote .callout-content {
+  font-size: var(--fs-2xl);
+}
+
+.post-content .callout-question {
+  background: var(--surface);
+  border: var(--stroke-thick) solid var(--ink);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  margin: var(--space-32) 0;
+  box-shadow: var(--shadow-stamp);
+}
+
+.post-content .callout-question .callout-label {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-label);
+  color: var(--muted);
+  margin-bottom: var(--space-12);
+}
+
+.post-content .callout-question .callout-content {
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 60, "WONK" 1;
+  line-height: var(--lh-snug);
+}
+
 .post-content code {
   background: var(--code-bg);
   color: var(--code-fg);

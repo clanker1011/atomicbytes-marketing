@@ -41,6 +41,13 @@ export default function (eleventyConfig) {
       .replace(/src="\//g, `src="${base}/`);
   });
 
+  // Shortcodes
+  eleventyConfig.addPairedShortcode("callout", function (content, type, label) {
+    const className = type === "quote" ? "callout-quote" : `callout-${type}`;
+    const labelHtml = label ? `<div class="callout-label">${label}</div>` : "";
+    return `<div class="${className}">${labelHtml}<div class="callout-content">${content.trim()}</div></div>`;
+  });
+
   return {
     dir: {
       input: "src",
