@@ -604,6 +604,8 @@ a:focus-visible {
 .post-content {
   max-width: var(--content-narrow);
   margin: 0 auto;
+  padding-left: var(--space-24);
+  padding-right: var(--space-24);
 }
 
 .post-content h2 {
