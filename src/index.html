@@ -91,7 +91,6 @@
     }
 
     .radio-container {
-      position: relative;
       width: 100%;
       max-width: 400px;
       display: flex;
@@ -101,9 +100,7 @@
     }
 
     .radio-display {
-      position: relative;
       width: 100%;
-      aspect-ratio: 1;
       max-width: 360px;
       display: flex;
       align-items: center;
@@ -112,24 +109,17 @@
 
     .transistor-radio {
       width: 100%;
-      height: 100%;
+      height: auto;
       object-fit: contain;
-      position: absolute;
-      z-index: 1;
-      pointer-events: none;
+      display: block;
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
     }
 
     .power-control {
-      position: absolute;
-      bottom: -5rem;
-      left: 50%;
-      transform: translateX(-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 0.5rem;
-      z-index: 10;
     }
 
     .power-switch {
@@ -493,14 +483,15 @@
   <div class="radio-container">
     <div class="radio-display">
       <img src="assets/characters/transistor.svg" alt="Transistor radio" class="transistor-radio">
-      <div class="power-control">
-        <button class="power-switch" id="powerSwitch" aria-label="Power" type="button" title="Power On/Off">
-          <div class="toggle-track">
-            <div class="toggle-lever"></div>
-          </div>
-        </button>
-        <div class="power-label" id="powerLabel">Off</div>
-      </div>
+    </div>
+
+    <div class="power-control">
+      <button class="power-switch" id="powerSwitch" aria-label="Power" type="button" title="Power On/Off">
+        <div class="toggle-track">
+          <div class="toggle-lever"></div>
+        </div>
+      </button>
+      <div class="power-label" id="powerLabel">Off</div>
     </div>
 
     <div class="dial-control">
