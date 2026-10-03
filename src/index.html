@@ -665,12 +665,16 @@
         marks.push(i);
       }
       
+      // Label at 550, 700, 900, 1100, 1300, 1600 (internal 55, 70, 90, 110, 130, 160)
+      const labeledFreqs = [55, 70, 90, 110, 130, 160];
+      
       scaleMarks.innerHTML = marks.map(freq => {
+        const shouldLabel = labeledFreqs.includes(freq);
         const isMajor = freq % 10 === 0;
         return `
           <div class="scale-mark">
-            <div class="scale-tick ${isMajor ? 'major' : ''}"></div>
-            ${isMajor ? `<div class="scale-number">${freq}</div>` : ''}
+            <div class="scale-tick ${shouldLabel || isMajor ? 'major' : ''}"></div>
+            ${shouldLabel ? `<div class="scale-number">${freq * 10}</div>` : ''}
           </div>
         `;
       }).join('');
@@ -678,7 +682,7 @@
 
     function updateFrequency(newFreq) {
       frequency = Math.max(MIN_FREQ, Math.min(MAX_FREQ, Math.round(newFreq)));
-      frequencyDisplay.textContent = frequency;
+      frequencyDisplay.textContent = frequency * 10;
 
       // Rotate needle (-45deg to 45deg for full range)
       const percent = (frequency - MIN_FREQ) / (MAX_FREQ - MIN_FREQ);
