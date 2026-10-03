@@ -3,18 +3,36 @@ Audio Station Sources
 
 All audio files in this directory are in the public domain.
 
-Procedurally Generated Tones (Placeholder Stations)
-----------------------------------------------------
-- station-440hz.mp3: 440Hz sine wave, 30 seconds
-- station-523hz.mp3: 523Hz sine wave, 30 seconds  
-- station-659hz.mp3: 659Hz sine wave, 30 seconds
+Library of Congress National Jukebox Recordings
+------------------------------------------------
+Pre-1923 recordings that entered the public domain on January 1, 2022
+under the Music Modernization Act of 2018.
 
-Generated using FFmpeg with synthetic sine wave input.
-These are mathematical waveforms with no copyright.
+Source: Library of Congress National Jukebox dataset
+        https://data.labs.loc.gov/jukebox/
 
-Note: These placeholder tones will be replaced with actual public domain
-recordings from the Library of Congress National Jukebox (pre-1923 music)
-or U.S. government Voice of America broadcasts in a future update.
+1. creole-belles-clip.mp3
+   Title: "Creole Belles"
+   Artist: Vess L. Ossman
+   Recorded: 1902
+   LOC Item ID: jukebox-213411
+   Source file: jukebox-213411_1.mp3
+   
+2. dill-pickles-clip.mp3
+   Title: "Dill Pickles Rag"
+   Artist: Arthur Pryor's Band
+   Recorded: 1909
+   LOC Item ID: jukebox-127191
+   Source file: From LOC National Jukebox dataset
+
+3. alexanders-clip.mp3
+   Title: "Alexander's Ragtime Band"
+   Artist: Victor Military Band
+   Recorded: 1911
+   LOC Item ID: jukebox-130931
+   Source file: From LOC National Jukebox dataset
+
+Each clip is approximately 32 seconds, trimmed from the original recording.
 
 Static/Noise Generation
 -----------------------
