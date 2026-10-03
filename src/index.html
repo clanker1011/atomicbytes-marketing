@@ -6,6 +6,13 @@
   <title>AtomicBytes</title>
   <meta name="description" content="The shop is between jobs.">
   <link rel="icon" type="image/svg+xml" href="assets/characters/atomicbyte-mark.svg">
+  <script>
+    // Apply theme before paint to avoid flash
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+    })();
+  </script>
   <style>
     @font-face {
       font-family: 'Fontdiner Swanky';
@@ -64,6 +71,12 @@
         repeating-linear-gradient(0deg, var(--grid-x) 0 1px, transparent 1px 100%),
         repeating-linear-gradient(90deg, var(--grid-y) 0 1px, transparent 1px 100%);
       background-size: 24px 24px;
+      background-attachment: fixed;
+    }
+
+    :root[data-theme="dark"] body {
+      background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800"><path d="M120 80 L122.5 89.5 L132 92 L122.5 94.5 L120 104 L117.5 94.5 L108 92 L117.5 89.5 Z" fill="%23FF5B3C"/><circle cx="120" cy="92" r="2.2" fill="%232EE6A6"/><path d="M340 220 L342 227.5 L350 230 L342 232.5 L340 240 L338 232.5 L330 230 L338 227.5 Z" fill="%23FFD84A"/><circle cx="340" cy="230" r="1.8" fill="%234B6BFF"/><path d="M580 140 L582.5 149.5 L592 152 L582.5 154.5 L580 164 L577.5 154.5 L568 152 L577.5 149.5 Z" fill="%232EE6A6"/><circle cx="580" cy="152" r="2" fill="%23FF5B3C"/><path d="M240 480 L242 487.5 L250 490 L242 492.5 L240 500 L238 492.5 L230 490 L238 487.5 Z" fill="%234B6BFF"/><circle cx="240" cy="490" r="1.8" fill="%23FFD84A"/><path d="M680 360 L682.5 369.5 L692 372 L682.5 374.5 L680 384 L677.5 374.5 L668 372 L677.5 369.5 Z" fill="%23FFD84A"/><circle cx="680" cy="372" r="2.2" fill="%232EE6A6"/><path d="M460 580 L462 587.5 L470 590 L462 592.5 L460 600 L458 592.5 L450 590 L458 587.5 Z" fill="%23FF5B3C"/><circle cx="460" cy="590" r="1.8" fill="%234B6BFF"/><path d="M160 640 L162.5 649.5 L172 652 L162.5 654.5 L160 664 L157.5 654.5 L148 652 L157.5 649.5 Z" fill="%232EE6A6"/><circle cx="160" cy="652" r="2" fill="%23FFD84A"/><path d="M720 560 L722 567.5 L730 570 L722 572.5 L720 580 L718 572.5 L710 570 L718 567.5 Z" fill="%234B6BFF"/><circle cx="720" cy="570" r="1.8" fill="%23FF5B3C"/></svg>');
+      background-size: 800px 800px;
       background-attachment: fixed;
     }
 
@@ -503,8 +516,12 @@
       }
     }
 
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    setTheme(savedTheme);
+    // Initialize icon state based on current theme (already set in head)
+    const currentTheme = root.getAttribute('data-theme') || 'light';
+    if (currentTheme === 'dark') {
+      sunIcon.classList.remove('active');
+      moonIcon.classList.add('active');
+    }
 
     themeToggle.addEventListener('click', () => {
       const currentTheme = root.getAttribute('data-theme') || 'light';
