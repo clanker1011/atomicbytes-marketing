@@ -120,73 +120,94 @@
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
     }
 
-    .power-switch {
+    .power-control {
       position: absolute;
-      bottom: 1rem;
+      bottom: -1rem;
       left: 50%;
       transform: translateX(-50%);
-      width: 52px;
-      height: 52px;
-      background: var(--paper);
-      border: 2.5px solid var(--ink);
-      border-radius: 50%;
-      cursor: pointer;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      transition: background 0.2s ease, transform 0.1s ease;
+      gap: 0.5rem;
       z-index: 10;
     }
 
-    .power-switch:hover {
-      background: var(--yolk);
-      transform: translateX(-50%) scale(1.05);
-    }
-
-    .power-switch:active {
-      transform: translateX(-50%) scale(0.95);
-    }
-
-    .power-icon {
-      width: 24px;
-      height: 24px;
+    .power-switch {
+      width: 60px;
+      height: 80px;
+      background: var(--paper);
+      border: 2.5px solid var(--ink);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      transition: background 0.2s ease;
       position: relative;
-      transition: opacity 0.2s ease;
     }
 
-    .power-icon::before {
-      content: '';
+    .power-switch:hover {
+      background: color-mix(in srgb, var(--paper) 95%, var(--yolk));
+    }
+
+    .toggle-track {
+      width: 8px;
+      height: 48px;
+      background: color-mix(in srgb, var(--ink) 15%, transparent);
+      border-radius: 4px;
+      position: relative;
+      border: 1.5px solid var(--ink);
+    }
+
+    .toggle-lever {
       position: absolute;
-      top: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: 3px;
-      height: 12px;
+      width: 24px;
+      height: 28px;
       background: var(--ink);
+      border: 2.5px solid var(--ink);
+      border-radius: 6px;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      top: 2px;
+    }
+
+    .toggle-lever::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 12px;
+      height: 3px;
+      background: var(--paper);
       border-radius: 2px;
     }
 
-    .power-icon::after {
-      content: '';
-      position: absolute;
-      top: 6px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 18px;
-      height: 18px;
-      border: 3px solid var(--ink);
-      border-top-color: transparent;
-      border-radius: 50%;
-    }
-
-    .power-switch.on {
+    .power-switch.on .toggle-lever {
+      top: calc(100% - 30px);
       background: var(--mint);
+      border-color: var(--mint);
     }
 
-    .power-switch.on .power-icon::before,
-    .power-switch.on .power-icon::after {
+    .power-switch.on .toggle-lever::after {
       background: var(--ink);
-      border-color: var(--ink);
+    }
+
+    .power-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      user-select: none;
+      transition: color 0.2s ease;
+    }
+
+    .power-switch.on + .power-label {
+      color: var(--ink);
     }
 
     .dial-control {
@@ -472,9 +493,14 @@
   <div class="radio-container">
     <div class="radio-display">
       <img src="assets/characters/transistor.svg" alt="Transistor radio" class="transistor-radio">
-      <button class="power-switch" id="powerSwitch" aria-label="Power" type="button" title="Power On/Off">
-        <div class="power-icon"></div>
-      </button>
+      <div class="power-control">
+        <button class="power-switch" id="powerSwitch" aria-label="Power" type="button" title="Power On/Off">
+          <div class="toggle-track">
+            <div class="toggle-lever"></div>
+          </div>
+        </button>
+        <div class="power-label" id="powerLabel">Off</div>
+      </div>
     </div>
 
     <div class="dial-control">
@@ -604,11 +630,14 @@
 
     // Power switch
     const powerSwitch = document.getElementById('powerSwitch');
+    const powerLabel = document.getElementById('powerLabel');
+    
     powerSwitch.addEventListener('click', () => {
       isPoweredOn = !isPoweredOn;
       
       if (isPoweredOn) {
         powerSwitch.classList.add('on');
+        powerLabel.textContent = 'On';
         if (!audioContext) {
           initAudio();
         } else {
@@ -617,6 +646,7 @@
         checkStation();
       } else {
         powerSwitch.classList.remove('on');
+        powerLabel.textContent = 'Off';
         if (audioContext) {
           audioContext.suspend();
         }
