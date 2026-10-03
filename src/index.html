@@ -137,10 +137,10 @@
 
     .dial-control {
       width: 100%;
-      max-width: 320px;
+      max-width: 340px;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.5rem;
       align-items: center;
     }
 
@@ -149,62 +149,150 @@
       color: var(--muted);
       text-align: center;
       font-weight: 500;
+      font-variant-numeric: tabular-nums;
     }
 
-    .dial-track {
+    .radio-dial {
       position: relative;
       width: 100%;
-      height: 48px;
-      background: var(--paper);
-      border: 2.5px solid var(--ink);
-      border-radius: 24px;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
       user-select: none;
       touch-action: none;
     }
 
-    .dial-fill {
+    .dial-face {
+      position: relative;
+      width: 100%;
+      height: 140px;
+      background: linear-gradient(180deg, 
+        color-mix(in srgb, var(--paper) 95%, var(--ink)) 0%,
+        var(--paper) 50%,
+        color-mix(in srgb, var(--paper) 97%, black) 100%);
+      border: 2.5px solid var(--ink);
+      border-radius: 12px;
+      box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.08),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.1),
+        0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .dial-glass {
       position: absolute;
-      left: 0;
       top: 0;
-      height: 100%;
-      background: linear-gradient(90deg, var(--coral) 0%, var(--yolk) 50%, var(--mint) 100%);
-      border-radius: 22px;
-      transition: width 0.1s ease-out;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(165deg, 
+        rgba(255, 255, 255, 0.15) 0%,
+        transparent 40%,
+        rgba(0, 0, 0, 0.05) 100%);
       pointer-events: none;
     }
 
-    .dial-knob {
+    .dial-scale {
       position: absolute;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 56px;
-      height: 56px;
-      background: var(--ink);
-      border: 3px solid var(--paper);
-      border-radius: 50%;
-      cursor: grab;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-      transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      height: 60px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0 16px;
     }
 
-    .dial-knob:active {
-      cursor: grabbing;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    .dial-markers {
+    .scale-marks {
+      position: relative;
+      width: 100%;
+      height: 100%;
       display: flex;
       justify-content: space-between;
-      width: 100%;
-      padding: 0 0.5rem;
-      margin-top: 0.25rem;
+      align-items: flex-end;
     }
 
-    .dial-marker {
-      font-size: 0.75rem;
-      color: var(--muted);
+    .scale-mark {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .scale-tick {
+      width: 1.5px;
+      height: 8px;
+      background: var(--ink);
+      opacity: 0.6;
+    }
+
+    .scale-tick.major {
+      height: 14px;
+      width: 2px;
+      opacity: 0.8;
+    }
+
+    .scale-number {
+      font-size: 0.625rem;
       font-weight: 600;
+      color: var(--ink);
+      opacity: 0.7;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .dial-needle-container {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 50px;
+      transform-origin: bottom center;
+      transition: transform 0.15s ease-out;
+      pointer-events: none;
+    }
+
+    .dial-needle {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 3px solid transparent;
+      border-right: 3px solid transparent;
+      border-bottom: 45px solid var(--coral);
+      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+    }
+
+    .dial-needle-dot {
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 8px;
+      background: var(--coral);
+      border: 1.5px solid var(--ink);
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .frequency-display {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.5rem;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      min-width: 60px;
+      text-align: center;
     }
 
     .tagline {
@@ -268,7 +356,37 @@
       }
 
       .dial-control {
-        max-width: 280px;
+        max-width: 300px;
+      }
+
+      .radio-dial {
+        height: 160px;
+      }
+
+      .dial-face {
+        height: 120px;
+      }
+
+      .frequency-display {
+        font-size: 1.25rem;
+        top: 12px;
+      }
+
+      .dial-scale {
+        bottom: 16px;
+      }
+
+      .dial-needle-container {
+        bottom: 16px;
+        height: 42px;
+      }
+
+      .dial-needle {
+        border-bottom-width: 38px;
+      }
+
+      .scale-number {
+        font-size: 0.5rem;
       }
 
       .theme-toggle {
@@ -304,14 +422,19 @@
     </div>
 
     <div class="dial-control">
-      <div class="dial-label">Tune: <span id="frequencyDisplay">107</span></div>
-      <div class="dial-track" id="dialTrack">
-        <div class="dial-fill" id="dialFill"></div>
-        <div class="dial-knob" id="dialKnob"></div>
-      </div>
-      <div class="dial-markers">
-        <span class="dial-marker">55</span>
-        <span class="dial-marker">160</span>
+      <div class="dial-label">AM Radio</div>
+      <div class="radio-dial" id="radioDial">
+        <div class="dial-face">
+          <div class="dial-glass"></div>
+          <div class="frequency-display" id="frequencyDisplay">107</div>
+          <div class="dial-scale">
+            <div class="scale-marks" id="scaleMarks"></div>
+          </div>
+          <div class="dial-needle-container" id="needleContainer">
+            <div class="dial-needle"></div>
+            <div class="dial-needle-dot"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -428,10 +551,10 @@
     });
 
     // Dial control
-    const dialTrack = document.getElementById('dialTrack');
-    const dialKnob = document.getElementById('dialKnob');
-    const dialFill = document.getElementById('dialFill');
+    const radioDial = document.getElementById('radioDial');
     const frequencyDisplay = document.getElementById('frequencyDisplay');
+    const needleContainer = document.getElementById('needleContainer');
+    const scaleMarks = document.getElementById('scaleMarks');
 
     const MIN_FREQ = 55;
     const MAX_FREQ = 160;
@@ -441,13 +564,32 @@
     let isDragging = false;
     let currentStation = null;
 
+    // Generate scale marks
+    function generateScale() {
+      const marks = [];
+      for (let i = MIN_FREQ; i <= MAX_FREQ; i += 5) {
+        marks.push(i);
+      }
+      
+      scaleMarks.innerHTML = marks.map(freq => {
+        const isMajor = freq % 10 === 0;
+        return `
+          <div class="scale-mark">
+            <div class="scale-tick ${isMajor ? 'major' : ''}"></div>
+            ${isMajor ? `<div class="scale-number">${freq}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
     function updateFrequency(newFreq) {
       frequency = Math.max(MIN_FREQ, Math.min(MAX_FREQ, Math.round(newFreq)));
       frequencyDisplay.textContent = frequency;
 
+      // Rotate needle (-45deg to 45deg for full range)
       const percent = (frequency - MIN_FREQ) / (MAX_FREQ - MIN_FREQ);
-      dialFill.style.width = `${percent * 100}%`;
-      dialKnob.style.left = `${percent * 100}%`;
+      const angle = -45 + (percent * 90);
+      needleContainer.style.transform = `translateX(-50%) rotate(${angle}deg)`;
 
       // Init audio on first interaction
       if (!audioStarted) {
@@ -456,6 +598,8 @@
 
       checkStation();
     }
+
+    generateScale();
 
     function checkStation() {
       if (!audioContext) return;
@@ -511,20 +655,15 @@
     }
 
     function getFrequencyFromPosition(x) {
-      const rect = dialTrack.getBoundingClientRect();
+      const rect = radioDial.getBoundingClientRect();
       const percent = Math.max(0, Math.min(1, (x - rect.left) / rect.width));
       return MIN_FREQ + percent * (MAX_FREQ - MIN_FREQ);
     }
 
     // Mouse/touch events
-    dialTrack.addEventListener('mousedown', (e) => {
+    radioDial.addEventListener('mousedown', (e) => {
       isDragging = true;
       updateFrequency(getFrequencyFromPosition(e.clientX));
-    });
-
-    dialKnob.addEventListener('mousedown', (e) => {
-      e.stopPropagation();
-      isDragging = true;
     });
 
     document.addEventListener('mousemove', (e) => {
@@ -538,17 +677,11 @@
     });
 
     // Touch events
-    dialTrack.addEventListener('touchstart', (e) => {
+    radioDial.addEventListener('touchstart', (e) => {
       e.preventDefault();
       isDragging = true;
       const touch = e.touches[0];
       updateFrequency(getFrequencyFromPosition(touch.clientX));
-    });
-
-    dialKnob.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      isDragging = true;
     });
 
     document.addEventListener('touchmove', (e) => {
