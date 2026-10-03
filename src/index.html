@@ -107,13 +107,13 @@
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
     }
 
-    .mute-toggle {
+    .power-switch {
       position: absolute;
       bottom: 1rem;
       left: 50%;
       transform: translateX(-50%);
-      width: 44px;
-      height: 44px;
+      width: 52px;
+      height: 52px;
       background: var(--paper);
       border: 2.5px solid var(--ink);
       border-radius: 50%;
@@ -121,18 +121,59 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.25rem;
       transition: background 0.2s ease, transform 0.1s ease;
       z-index: 10;
     }
 
-    .mute-toggle:hover {
+    .power-switch:hover {
       background: var(--yolk);
       transform: translateX(-50%) scale(1.05);
     }
 
-    .mute-toggle:active {
+    .power-switch:active {
       transform: translateX(-50%) scale(0.95);
+    }
+
+    .power-icon {
+      width: 24px;
+      height: 24px;
+      position: relative;
+      transition: opacity 0.2s ease;
+    }
+
+    .power-icon::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 3px;
+      height: 12px;
+      background: var(--ink);
+      border-radius: 2px;
+    }
+
+    .power-icon::after {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 18px;
+      height: 18px;
+      border: 3px solid var(--ink);
+      border-top-color: transparent;
+      border-radius: 50%;
+    }
+
+    .power-switch.on {
+      background: var(--mint);
+    }
+
+    .power-switch.on .power-icon::before,
+    .power-switch.on .power-icon::after {
+      background: var(--ink);
+      border-color: var(--ink);
     }
 
     .dial-control {
@@ -418,7 +459,9 @@
   <div class="radio-container">
     <div class="radio-display">
       <img src="assets/characters/transistor.svg" alt="Transistor radio" class="transistor-radio">
-      <button class="mute-toggle" id="muteToggle" aria-label="Toggle mute" type="button" title="Mute/Unmute">🔊</button>
+      <button class="power-switch" id="powerSwitch" aria-label="Power" type="button" title="Power On/Off">
+        <div class="power-icon"></div>
+      </button>
     </div>
 
     <div class="dial-control">
@@ -474,8 +517,7 @@
     let staticGain = null;
     let stationGain = null;
     let stationSource = null;
-    let isMuted = false;
-    let audioStarted = false;
+    let isPoweredOn = false;
 
     // Radio stations with audio
     const stations = [
@@ -485,6 +527,19 @@
     ];
 
     const audioBuffers = {};
+    const arrayBuffers = {};
+
+    // Preload station audio files in background
+    function preloadAudio() {
+      stations.forEach(station => {
+        fetch(station.audio)
+          .then(response => response.arrayBuffer())
+          .then(arrayBuffer => {
+            arrayBuffers[station.freq] = arrayBuffer;
+          })
+          .catch(err => console.log('Could not preload', station.audio));
+      });
+    }
 
     function initAudio() {
       if (audioContext) return;
@@ -508,45 +563,46 @@
       stationGain = audioContext.createGain();
       
       const masterGain = audioContext.createGain();
-      masterGain.gain.value = 0.3; // Lower volume
+      masterGain.gain.value = 0.3;
 
       staticNode.connect(staticGain);
       staticGain.connect(masterGain);
       stationGain.connect(masterGain);
       masterGain.connect(audioContext.destination);
 
-      staticGain.gain.value = 0.15; // Low static volume
+      staticGain.gain.value = 0.15;
       stationGain.gain.value = 0;
 
       staticNode.start();
-      audioStarted = true;
 
-      // Preload station audio
-      stations.forEach(station => {
-        fetch(station.audio)
-          .then(response => response.arrayBuffer())
-          .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+      // Decode preloaded audio into buffers
+      Object.keys(arrayBuffers).forEach(freq => {
+        audioContext.decodeAudioData(arrayBuffers[freq].slice(0))
           .then(audioBuffer => {
-            audioBuffers[station.freq] = audioBuffer;
+            audioBuffers[freq] = audioBuffer;
           })
-          .catch(err => console.log('Could not load', station.audio));
+          .catch(err => console.log('Could not decode audio'));
       });
     }
 
-    // Mute toggle
-    const muteToggle = document.getElementById('muteToggle');
-    muteToggle.addEventListener('click', () => {
-      if (!audioContext) return;
+    // Power switch
+    const powerSwitch = document.getElementById('powerSwitch');
+    powerSwitch.addEventListener('click', () => {
+      isPoweredOn = !isPoweredOn;
       
-      isMuted = !isMuted;
-      const masterGain = audioContext.destination;
-      
-      if (isMuted) {
-        muteToggle.textContent = '🔇';
-        audioContext.suspend();
+      if (isPoweredOn) {
+        powerSwitch.classList.add('on');
+        if (!audioContext) {
+          initAudio();
+        } else {
+          audioContext.resume();
+        }
+        checkStation();
       } else {
-        muteToggle.textContent = '🔊';
-        audioContext.resume();
+        powerSwitch.classList.remove('on');
+        if (audioContext) {
+          audioContext.suspend();
+        }
       }
     });
 
@@ -591,18 +647,16 @@
       const angle = -45 + (percent * 90);
       needleContainer.style.transform = `translateX(-50%) rotate(${angle}deg)`;
 
-      // Init audio on first interaction
-      if (!audioStarted) {
-        initAudio();
+      // Only check station if powered on
+      if (isPoweredOn) {
+        checkStation();
       }
-
-      checkStation();
     }
 
     generateScale();
 
     function checkStation() {
-      if (!audioContext) return;
+      if (!audioContext || !isPoweredOn) return;
 
       const station = stations.find(s => Math.abs(s.freq - frequency) <= STATION_THRESHOLD);
 
@@ -709,6 +763,11 @@
 
     // Initialize
     updateFrequency(frequency);
+    
+    // Preload audio files after page load
+    window.addEventListener('load', () => {
+      preloadAudio();
+    });
   </script>
 </body>
 </html>
