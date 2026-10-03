@@ -1,0 +1,22 @@
+Audio Station Sources
+=====================
+
+All audio files in this directory are in the public domain.
+
+Procedurally Generated Tones (Placeholder Stations)
+----------------------------------------------------
+- station-440hz.mp3: 440Hz sine wave, 30 seconds
+- station-523hz.mp3: 523Hz sine wave, 30 seconds  
+- station-659hz.mp3: 659Hz sine wave, 30 seconds
+
+Generated using FFmpeg with synthetic sine wave input.
+These are mathematical waveforms with no copyright.
+
+Note: These placeholder tones will be replaced with actual public domain
+recordings from the Library of Congress National Jukebox (pre-1923 music)
+or U.S. government Voice of America broadcasts in a future update.
+
+Static/Noise Generation
+-----------------------
+Radio static and tuning noise are generated in real-time using the Web Audio API
+(see index.html). No external audio samples are used for static.

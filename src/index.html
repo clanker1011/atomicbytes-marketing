@@ -107,28 +107,32 @@
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
     }
 
-    .character-display {
+    .mute-toggle {
       position: absolute;
-      width: 80%;
-      height: 80%;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 44px;
+      height: 44px;
+      background: var(--paper);
+      border: 2.5px solid var(--ink);
+      border-radius: 50%;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 2;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      font-size: 1.25rem;
+      transition: background 0.2s ease, transform 0.1s ease;
+      z-index: 10;
     }
 
-    .character-display.visible {
-      opacity: 1;
+    .mute-toggle:hover {
+      background: var(--yolk);
+      transform: translateX(-50%) scale(1.05);
     }
 
-    .character-display img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15));
+    .mute-toggle:active {
+      transform: translateX(-50%) scale(0.95);
     }
 
     .dial-control {
@@ -296,9 +300,7 @@
   <div class="radio-container">
     <div class="radio-display">
       <img src="assets/characters/transistor.svg" alt="Transistor radio" class="transistor-radio">
-      <div class="character-display" id="characterDisplay">
-        <img src="" alt="" id="characterImage">
-      </div>
+      <button class="mute-toggle" id="muteToggle" aria-label="Toggle mute" type="button" title="Mute/Unmute">🔊</button>
     </div>
 
     <div class="dial-control">
@@ -343,22 +345,93 @@
       setTheme(currentTheme === 'light' ? 'dark' : 'light');
     });
 
-    // Radio stations with characters
+    // Web Audio API setup
+    let audioContext = null;
+    let staticNode = null;
+    let staticGain = null;
+    let stationGain = null;
+    let stationSource = null;
+    let isMuted = false;
+    let audioStarted = false;
+
+    // Radio stations with audio
     const stations = [
-      { freq: 62, character: 'assets/characters/byte-rocket.svg', alt: 'Byte Rocket', action: 'launch' },
-      { freq: 78, character: 'assets/characters/hard-hat.png', alt: 'Hard Hat' },
-      { freq: 95, character: 'assets/characters/atom-salesman.png', alt: 'Atom Salesman' },
-      { freq: 123, character: 'assets/characters/switchboard.svg', alt: 'Switchboard' },
-      { freq: 145, character: 'assets/characters/byte-bot.png', alt: 'Byte Bot' }
+      { freq: 70, audio: 'assets/audio/station-440hz.mp3', name: 'Station A' },
+      { freq: 100, audio: 'assets/audio/station-523hz.mp3', name: 'Station B' },
+      { freq: 135, audio: 'assets/audio/station-659hz.mp3', name: 'Station C' }
     ];
+
+    const audioBuffers = {};
+
+    function initAudio() {
+      if (audioContext) return;
+
+      audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      
+      // Create static noise generator
+      const bufferSize = audioContext.sampleRate * 2;
+      const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+      const output = noiseBuffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = Math.random() * 2 - 1;
+      }
+
+      staticNode = audioContext.createBufferSource();
+      staticNode.buffer = noiseBuffer;
+      staticNode.loop = true;
+
+      // Create gain nodes for crossfading
+      staticGain = audioContext.createGain();
+      stationGain = audioContext.createGain();
+      
+      const masterGain = audioContext.createGain();
+      masterGain.gain.value = 0.3; // Lower volume
+
+      staticNode.connect(staticGain);
+      staticGain.connect(masterGain);
+      stationGain.connect(masterGain);
+      masterGain.connect(audioContext.destination);
+
+      staticGain.gain.value = 0.15; // Low static volume
+      stationGain.gain.value = 0;
+
+      staticNode.start();
+      audioStarted = true;
+
+      // Preload station audio
+      stations.forEach(station => {
+        fetch(station.audio)
+          .then(response => response.arrayBuffer())
+          .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+          .then(audioBuffer => {
+            audioBuffers[station.freq] = audioBuffer;
+          })
+          .catch(err => console.log('Could not load', station.audio));
+      });
+    }
+
+    // Mute toggle
+    const muteToggle = document.getElementById('muteToggle');
+    muteToggle.addEventListener('click', () => {
+      if (!audioContext) return;
+      
+      isMuted = !isMuted;
+      const masterGain = audioContext.destination;
+      
+      if (isMuted) {
+        muteToggle.textContent = '🔇';
+        audioContext.suspend();
+      } else {
+        muteToggle.textContent = '🔊';
+        audioContext.resume();
+      }
+    });
 
     // Dial control
     const dialTrack = document.getElementById('dialTrack');
     const dialKnob = document.getElementById('dialKnob');
     const dialFill = document.getElementById('dialFill');
     const frequencyDisplay = document.getElementById('frequencyDisplay');
-    const characterDisplay = document.getElementById('characterDisplay');
-    const characterImage = document.getElementById('characterImage');
 
     const MIN_FREQ = 55;
     const MAX_FREQ = 160;
@@ -367,8 +440,6 @@
     let frequency = 107;
     let isDragging = false;
     let currentStation = null;
-    let characterTimer = null;
-    let rocketLaunched = false;
 
     function updateFrequency(newFreq) {
       frequency = Math.max(MIN_FREQ, Math.min(MAX_FREQ, Math.round(newFreq)));
@@ -378,56 +449,65 @@
       dialFill.style.width = `${percent * 100}%`;
       dialKnob.style.left = `${percent * 100}%`;
 
+      // Init audio on first interaction
+      if (!audioStarted) {
+        initAudio();
+      }
+
       checkStation();
     }
 
     function checkStation() {
-      if (rocketLaunched) return;
+      if (!audioContext) return;
 
       const station = stations.find(s => Math.abs(s.freq - frequency) <= STATION_THRESHOLD);
 
       if (station && station !== currentStation) {
         currentStation = station;
-        showCharacter(station);
+        playStation(station);
       } else if (!station && currentStation) {
         currentStation = null;
-        hideCharacter();
+        playStatic();
       }
     }
 
-    function showCharacter(station) {
-      clearTimeout(characterTimer);
+    function playStation(station) {
+      if (!audioBuffers[station.freq]) {
+        playStatic();
+        return;
+      }
 
-      if (station.action === 'launch' && !rocketLaunched) {
-        characterImage.src = station.character;
-        characterImage.alt = station.alt;
-        characterDisplay.classList.add('visible');
+      // Crossfade from static to station
+      const now = audioContext.currentTime;
+      staticGain.gain.linearRampToValueAtTime(0, now + 0.5);
+      stationGain.gain.linearRampToValueAtTime(0.6, now + 0.5);
 
+      // Stop previous station
+      if (stationSource) {
+        stationSource.stop();
+      }
+
+      // Start new station
+      stationSource = audioContext.createBufferSource();
+      stationSource.buffer = audioBuffers[station.freq];
+      stationSource.loop = true;
+      stationSource.connect(stationGain);
+      stationSource.start();
+    }
+
+    function playStatic() {
+      if (!audioContext) return;
+
+      const now = audioContext.currentTime;
+      stationGain.gain.linearRampToValueAtTime(0, now + 0.3);
+      staticGain.gain.linearRampToValueAtTime(0.15, now + 0.3);
+
+      if (stationSource) {
         setTimeout(() => {
-          characterImage.style.transition = 'transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)';
-          characterImage.style.transform = 'translateY(-600px) rotate(15deg)';
-          rocketLaunched = true;
-
-          setTimeout(() => {
-            characterDisplay.classList.remove('visible');
-            characterImage.style.transition = '';
-            characterImage.style.transform = '';
-          }, 1200);
-        }, 800);
-      } else if (!station.action) {
-        characterImage.src = station.character;
-        characterImage.alt = station.alt;
-        characterDisplay.classList.add('visible');
-
-        characterTimer = setTimeout(() => {
-          hideCharacter();
-        }, 3000);
+          if (stationSource) stationSource.stop();
+          stationSource = null;
+        }, 300);
       }
-    }
-
-    function hideCharacter() {
-      clearTimeout(characterTimer);
-      characterDisplay.classList.remove('visible');
     }
 
     function getFrequencyFromPosition(x) {
