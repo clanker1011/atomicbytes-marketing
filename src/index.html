@@ -9,7 +9,7 @@
   <script>
     // Apply theme before paint to avoid flash
     (function() {
-      const savedTheme = localStorage.getItem('theme') || 'light';
+      const savedTheme = localStorage.getItem('theme') || 'dark';
       document.documentElement.setAttribute('data-theme', savedTheme);
     })();
   </script>
@@ -534,14 +534,14 @@
     }
 
     // Initialize icon state based on current theme (already set in head)
-    const currentTheme = root.getAttribute('data-theme') || 'light';
+    const currentTheme = root.getAttribute('data-theme') || 'dark';
     if (currentTheme === 'dark') {
       sunIcon.classList.remove('active');
       moonIcon.classList.add('active');
     }
 
     themeToggle.addEventListener('click', () => {
-      const currentTheme = root.getAttribute('data-theme') || 'light';
+      const currentTheme = root.getAttribute('data-theme') || 'dark';
       setTheme(currentTheme === 'light' ? 'dark' : 'light');
     });
 
