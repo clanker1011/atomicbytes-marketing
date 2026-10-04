@@ -568,6 +568,20 @@
           .then(response => response.arrayBuffer())
           .then(arrayBuffer => {
             arrayBuffers[station.freq] = arrayBuffer;
+            
+            // If audio context already exists (power was turned on), decode immediately
+            if (audioContext) {
+              audioContext.decodeAudioData(arrayBuffer.slice(0))
+                .then(audioBuffer => {
+                  audioBuffers[station.freq] = audioBuffer;
+                  
+                  // If we're powered on and tuned to this station, play it now
+                  if (isPoweredOn && Math.abs(station.freq - frequency) <= STATION_THRESHOLD) {
+                    playStation(station);
+                  }
+                })
+                .catch(err => console.log('Could not decode audio'));
+            }
           })
           .catch(err => console.log('Could not preload', station.audio));
       });
@@ -612,6 +626,14 @@
         audioContext.decodeAudioData(arrayBuffers[freq].slice(0))
           .then(audioBuffer => {
             audioBuffers[freq] = audioBuffer;
+            
+            // If we're powered on and tuned to this station, play it now
+            if (isPoweredOn) {
+              const station = stations.find(s => s.freq === parseInt(freq));
+              if (station && Math.abs(station.freq - frequency) <= STATION_THRESHOLD) {
+                playStation(station);
+              }
+            }
           })
           .catch(err => console.log('Could not decode audio'));
       });
